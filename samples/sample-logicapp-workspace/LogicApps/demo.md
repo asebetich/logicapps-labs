@@ -1,8 +1,8 @@
 # --- Variables ---
 $RG       = "rg-la-demo"
-$LOC      = "eastus"
+$LOC      = "westus"
 $ST       = "stladdemo$(Get-Random -Maximum 99999)"
-$PLAN     = "plan-la-demo"
+$PLAN     = "plan-la-demo$(Get-Random -Maximum 99)"
 $APP      = "logic-la-demo-$(Get-Random -Maximum 999)"
 $UAMI     = "uami-la-demo"
 $KV       = "kvla$(Get-Random -Maximum 99999)"
@@ -34,7 +34,7 @@ az role assignment create --assignee-object-id $UAMI_PID --assignee-principal-ty
 
 # --- Provision Logic App site via Bicep ---
 $PLAN_ID = az functionapp plan show -g $RG -n $PLAN --query id -o tsv
-cd .\logicapps-labs\samples\sample-logicapp-workspace\LogicApps
+cd .\samples\sample-logicapp-workspace\LogicApps
 az deployment group create -g $RG -f logicapp.bicep -p name=$APP planId=$PLAN_ID uamiId=$UAMI_ID uamiClientId=$UAMI_CID
 
 # --- Wire up all app settings (storage MI + KV secrets) ---
